@@ -6,7 +6,7 @@ export interface RackspaceConfig {
   rackspaceToken: string;
 }
 
-export class RackspaceConfigHelper implements RackspaceConfig {
+export class RackspaceIOConfigHelper implements RackspaceConfig {
   readonly rackspaceConfigPath = `${path.dirname(
     require.main.filename
   )}/../configs/rackspace-config.json`;
@@ -31,11 +31,14 @@ export class RackspaceConfigHelper implements RackspaceConfig {
     return rackspaceConfigJson;
   };
 
-  createBlankRackspaceConfig = async (): Promise<void> => {
+  private createBlankRackspaceConfig = async (): Promise<void> => {
     this.rackspaceCloudUrl = '';
     this.rackspaceToken = '';
 
-    const initialRackspaceConfig = { ...this } as RackspaceConfig;
+    const initialRackspaceConfig = {
+      ...this,
+      rackspaceConfigPath: undefined
+    } as RackspaceConfig;
     await fsPromises.writeFile(
       this.rackspaceConfigPath,
       JSON.stringify(initialRackspaceConfig, null, 2),

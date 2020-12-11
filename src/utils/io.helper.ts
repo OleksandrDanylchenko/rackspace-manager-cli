@@ -7,7 +7,7 @@ const cliPrompt = readline.createInterface({
 });
 
 export const promptConsoleValue = async (question: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     cliPrompt.question(question, (answer) => {
       cliPrompt.pause();
       resolve(answer);

@@ -3,8 +3,8 @@ import clear from 'clear';
 import figlet from 'figlet';
 import {
   RackspaceConfig,
-  RackspaceConfigHelper
-} from './utils/rackspaceConfig.helper';
+  RackspaceIOConfigHelper
+} from './utils/rackspaceIOConfig.helper';
 import { promptConsoleArguments, promptConsoleValue } from './utils/io.helper';
 
 clear();
@@ -17,7 +17,7 @@ console.log(
   )
 );
 
-const rackspaceConfigHelper = new RackspaceConfigHelper();
+const rackspaceConfigHelper = new RackspaceIOConfigHelper();
 
 rackspaceConfigHelper
   .readRackspaceConfig()
