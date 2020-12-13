@@ -6,32 +6,41 @@ export interface RackspaceConfig {
   rackspaceToken: string;
 }
 
-export class RackspaceIOConfigHelper implements RackspaceConfig {
-  readonly rackspaceConfigPath = `${path.dirname(
+export class RackspaceLocalConfigurer implements RackspaceConfig {
+  private static readonly _rackspaceConfigPath = `${path.dirname(
     require.main.filename
   )}/../configs/rackspace-config.json`;
 
   rackspaceCloudUrl = '';
   rackspaceToken = '';
 
-  readRackspaceConfig = async (): Promise<RackspaceConfig> => {
+  get currentConfig(): RackspaceConfig {
+    return {
+      rackspaceCloudUrl: this.rackspaceCloudUrl,
+      rackspaceToken: this.rackspaceToken
+    };
+  }
+
+  async readRackspaceConfig(): Promise<RackspaceConfig> {
     try {
-      await fsPromises.access(this.rackspaceConfigPath);
+      await fsPromises.access(RackspaceLocalConfigurer._rackspaceConfigPath);
     } catch (err) {
       await this.createBlankRackspaceConfig();
       return;
     }
 
-    const rackspaceConfig = await fsPromises.readFile(this.rackspaceConfigPath);
+    const rackspaceConfig = await fsPromises.readFile(
+      RackspaceLocalConfigurer._rackspaceConfigPath
+    );
     const rackspaceConfigJson = JSON.parse(rackspaceConfig.toString());
 
     this.rackspaceCloudUrl = rackspaceConfigJson.rackspaceCloudUrl;
     this.rackspaceToken = rackspaceConfigJson.rackspaceToken;
 
     return rackspaceConfigJson;
-  };
+  }
 
-  private createBlankRackspaceConfig = async (): Promise<void> => {
+  private async createBlankRackspaceConfig(): Promise<void> {
     this.rackspaceCloudUrl = '';
     this.rackspaceToken = '';
 
@@ -40,25 +49,25 @@ export class RackspaceIOConfigHelper implements RackspaceConfig {
       rackspaceConfigPath: undefined
     } as RackspaceConfig;
     await fsPromises.writeFile(
-      this.rackspaceConfigPath,
+      RackspaceLocalConfigurer._rackspaceConfigPath,
       JSON.stringify(initialRackspaceConfig, null, 2),
       {
         encoding: 'utf-8'
       }
     );
-  };
+  }
 
-  writeRackspaceConfig = async (): Promise<void> => {
+  async writeRackspaceConfig(): Promise<void> {
     const rackspaceConfig = {
       ...this,
       rackspaceConfigPath: undefined
     } as RackspaceConfig;
     await fsPromises.writeFile(
-      this.rackspaceConfigPath,
+      RackspaceLocalConfigurer._rackspaceConfigPath,
       JSON.stringify(rackspaceConfig, null, 2),
       {
         encoding: 'utf-8'
       }
     );
-  };
+  }
 }

@@ -1,45 +1,38 @@
-import chalk from 'chalk';
-import clear from 'clear';
-import figlet from 'figlet';
+import { ConsoleDisplayer } from './cliModules/consoleDisplayer';
 import {
   RackspaceConfig,
-  RackspaceIOConfigHelper
-} from './utils/rackspaceIOConfig.helper';
-import { promptConsoleArguments, promptConsoleValue } from './utils/io.helper';
+  RackspaceLocalConfigurer
+} from './rackspaceModules/rackspaceLocalConfigurer';
+import { ConsolePrompter } from './cliModules/consolePrompter';
 
-clear();
-console.log(
-  chalk.yellow(
-    figlet.textSync('UPDATER', {
-      font: 'Bloody',
-      horizontalLayout: 'full'
-    })
-  )
-);
+const consoleDisplayer = new ConsoleDisplayer();
+const consolePrompter = new ConsolePrompter();
+const rackspaceLocalConfigurer = new RackspaceLocalConfigurer();
 
-const rackspaceConfigHelper = new RackspaceIOConfigHelper();
+consoleDisplayer.clearScreen();
+consoleDisplayer.displayAppHeader();
 
-rackspaceConfigHelper
+rackspaceLocalConfigurer
   .readRackspaceConfig()
   .then(async (rackspaceConfig: RackspaceConfig) => {
-    const args = promptConsoleArguments();
+    const args = consolePrompter.promptConsoleArguments();
 
     let isUpdated = false;
     if (!rackspaceConfig.rackspaceCloudUrl && !args.cloudUrl) {
-      rackspaceConfigHelper.rackspaceCloudUrl = await promptConsoleValue(
+      rackspaceLocalConfigurer.rackspaceCloudUrl = await consolePrompter.promptConsoleValue(
         'Please provide a rackspace cloud public url: '
       );
       isUpdated = true;
     }
     if (!rackspaceConfig.rackspaceToken && !args.token) {
-      rackspaceConfigHelper.rackspaceToken = await promptConsoleValue(
+      rackspaceLocalConfigurer.rackspaceToken = await consolePrompter.promptConsoleValue(
         'Please provide a rackspace token id: '
       );
       isUpdated = true;
     }
 
     if (isUpdated) {
-      await rackspaceConfigHelper.writeRackspaceConfig();
+      await rackspaceLocalConfigurer.writeRackspaceConfig();
     }
   })
   .catch((err) => console.error(err));

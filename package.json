@@ -11,7 +11,7 @@
     "start": "tsnd --respawn --files -r @babel/register --inspect -- src/cli.ts",
     "create": "npm run build && node .",
     "build": "tsc -p .",
-    "local": "sudo npm i -g && pizza",
+    "local": "sudo npm i -g && updater",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
   "bin": {
