@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { ConsoleDisplayer } from './cliModules/consoleDisplayer';
 import {
   RackspaceConfig,

@@ -1,6 +1,6 @@
 {
   "name": "rackspace-manager",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "./lib/cli.js",
   "author": "Oleksandr Danylchenko",
   "license": "MIT",
@@ -8,7 +8,7 @@
     "startDev": "tsnd --respawn --files -r @babel/register --inspect -- src/cli.ts",
     "start": "npm run build && node .",
     "build": "tsc -p .",
-    "local": "sudo npm i -g && updater",
+    "local": "npm i -g && updater",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
     "typecheck": "tsc",
     "lint:base": "eslint --ext .js,.json,.ts",
