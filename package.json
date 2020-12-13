@@ -1,6 +1,6 @@
 {
   "name": "rackspace-files-headers-updater",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "main": "./lib/cli.js",
   "author": "Oleksandr Danylchenko",
   "license": "MIT",
