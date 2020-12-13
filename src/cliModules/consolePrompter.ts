@@ -1,7 +1,7 @@
 import readline from 'readline';
 import yargs from 'yargs';
 
-interface YargsOptions {
+export interface YargsOptions {
   [p: string]: unknown;
   'cloud-url': string;
   token: string;
@@ -28,6 +28,6 @@ export class ConsolePrompter {
     yargs.options({
       'cloud-url': { type: 'string', demandOption: false, alias: 'u' },
       token: { type: 'string', demandOption: false, alias: 't' },
-      'container-path': { type: 'string', demandOption: false, alias: 'p' }
+      'container-path': { type: 'string', demandOption: true, alias: 'p' }
     }).argv;
 }

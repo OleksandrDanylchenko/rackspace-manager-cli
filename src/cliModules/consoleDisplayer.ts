@@ -12,7 +12,7 @@ export class ConsoleDisplayer {
     console.log(
       chalk.red(
         figlet.textSync('UPDATER', {
-          font: 'Bloody',
+          font: 'Jacky',
           horizontalLayout: 'full'
         })
       )

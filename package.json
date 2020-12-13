@@ -5,7 +5,7 @@
   "author": "Oleksandr Danylchenko",
   "license": "MIT",
   "scripts": {
-    "startDev": "tsnd --respawn --files -r @babel/register --inspect -- src/cli.ts -p wingboot/kulturhuset/201211-gyro-9",
+    "startDev": "tsnd --respawn --files -r @babel/register --inspect -- src/cli.ts",
     "start": "npm run build && node .",
     "build": "tsc -p .",
     "local": "sudo npm i -g && updater",
@@ -15,7 +15,7 @@
     "lint": "yarn lint:base src"
   },
   "bin": {
-    "updater": "./lib/index.js"
+    "updater": "./lib/cli.js"
   },
   "lint-staged": {
     "src/**/*.{ts,js,json}": [
