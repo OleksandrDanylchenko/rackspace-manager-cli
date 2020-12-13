@@ -26,7 +26,7 @@ export class RackspaceLocalConfigurer implements RackspaceConfig {
       await fsPromises.access(RackspaceLocalConfigurer._rackspaceConfigPath);
     } catch (err) {
       await this.createBlankRackspaceConfig();
-      return;
+      return this.currentConfig;
     }
 
     const rackspaceConfig = await fsPromises.readFile(
@@ -37,7 +37,7 @@ export class RackspaceLocalConfigurer implements RackspaceConfig {
     this.rackspaceCloudUrl = rackspaceConfigJson.rackspaceCloudUrl;
     this.rackspaceToken = rackspaceConfigJson.rackspaceToken;
 
-    return rackspaceConfigJson;
+    return this.currentConfig;
   }
 
   private async createBlankRackspaceConfig(): Promise<void> {
@@ -48,13 +48,27 @@ export class RackspaceLocalConfigurer implements RackspaceConfig {
       ...this,
       rackspaceConfigPath: undefined
     } as RackspaceConfig;
-    await fsPromises.writeFile(
-      RackspaceLocalConfigurer._rackspaceConfigPath,
-      JSON.stringify(initialRackspaceConfig, null, 2),
-      {
-        encoding: 'utf-8'
-      }
-    );
+
+    await createConfigFolder();
+    await createConfigFile(initialRackspaceConfig);
+
+    function createConfigFolder() {
+      const rackspaceConfigFolder = RackspaceLocalConfigurer._rackspaceConfigPath.replace(
+        'rackspace-config.json',
+        ''
+      );
+      return fsPromises.mkdir(rackspaceConfigFolder, { recursive: true });
+    }
+
+    function createConfigFile(initialRackspaceConfig: RackspaceConfig) {
+      return fsPromises.writeFile(
+        RackspaceLocalConfigurer._rackspaceConfigPath,
+        JSON.stringify(initialRackspaceConfig, null, 2),
+        {
+          encoding: 'utf-8'
+        }
+      );
+    }
   }
 
   async writeRackspaceConfig(): Promise<void> {

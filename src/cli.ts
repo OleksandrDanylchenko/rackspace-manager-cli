@@ -23,7 +23,7 @@ ConsoleDisplayer.displaySpinnerText('Fetching local configuration');
 rackspaceLocalConfigurer
   .readRackspaceConfig()
   .then(async (rackspaceConfig: RackspaceConfig) => {
-    ConsoleDisplayer.successSpinnerText();
+    ConsoleDisplayer.successSpinnerText('Fetched local configuration');
 
     const args = consolePrompter.getConsoleArguments();
 
@@ -44,7 +44,7 @@ rackspaceLocalConfigurer
     if (isUpdated) {
       ConsoleDisplayer.displaySpinnerText('Updating local configuration');
       await rackspaceLocalConfigurer.writeRackspaceConfig();
-      ConsoleDisplayer.successSpinnerText();
+      ConsoleDisplayer.successSpinnerText('Updated local configuration');
     }
 
     const isRackspaceUpdated = await rackspaceRemoteConfigurer.updateRackspaceRecordsHeaders(
