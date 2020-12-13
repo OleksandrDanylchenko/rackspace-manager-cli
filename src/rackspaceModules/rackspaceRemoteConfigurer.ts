@@ -37,7 +37,7 @@ export class RackspaceRemoteConfigurer implements RackspaceRemoteState {
         (error, stdout, stderr) => {
           if (error || stderr) {
             throw new Error(
-              `Sorry, but "swiftly" hasn't been found on your PC. Please install it, using the provided link and try again: https://docs.rackspace.com/support/how-to/install-the-swiftly-client-for-cloud-files/`
+              `Sorry, but "swiftly" isn't installed on your PC or install incorrectly. Please install/reinstall it, using the provided link and try again: https://docs.rackspace.com/support/how-to/install-the-swiftly-client-for-cloud-files/. NOT AVAILABLE ON WINDOWS!`
             );
           }
 
