@@ -83,6 +83,7 @@ export class RackspaceRemoteConfigurer implements RackspaceRemoteState {
       .toLocaleLowerCase();
 
     if (
+      formattedResponse &&
       RackspaceRemoteConfigurer.validRackspaceResponseText !== formattedResponse
     ) {
       throw new Error(`Rackspace responded with error: "${formattedResponse}"`);
