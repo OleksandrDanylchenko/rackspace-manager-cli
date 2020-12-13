@@ -1,5 +1,5 @@
 {
-  "name": "rackspace-manager",
+  "name": "rackspace-files-headers-updater",
   "version": "1.0.0",
   "main": "./lib/cli.js",
   "author": "Oleksandr Danylchenko",
