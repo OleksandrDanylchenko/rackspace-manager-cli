@@ -10,7 +10,7 @@ export class ConsoleDisplayer {
 
   static displayAppHeader = (): void =>
     console.log(
-      chalk.yellow(
+      chalk.red(
         figlet.textSync('UPDATER', {
           font: 'Bloody',
           horizontalLayout: 'full'
@@ -18,16 +18,10 @@ export class ConsoleDisplayer {
       )
     );
 
-  static displayRecords = (records: string[]): void =>
-    records.forEach((record) => console.log(chalk.blue(record)));
-
-  static displayError = (errorMessage: string): void =>
-    console.error(chalk.red(errorMessage));
-
   static displaySpinnerText = (spinnerText: string): void => {
     ConsoleDisplayer.spinner = ora({
       text: spinnerText,
-      spinner: 'squish',
+      spinner: 'star2',
       discardStdin: false
     }).start();
   };

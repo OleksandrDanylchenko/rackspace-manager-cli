@@ -26,7 +26,7 @@ export class ConsolePrompter {
 
   getConsoleArguments = (): YargsOptions =>
     yargs.options({
-      'cloud-url': { type: 'string', demandOption: false, alias: 'c' },
+      'cloud-url': { type: 'string', demandOption: false, alias: 'u' },
       token: { type: 'string', demandOption: false, alias: 't' },
       'container-path': { type: 'string', demandOption: false, alias: 'p' }
     }).argv;

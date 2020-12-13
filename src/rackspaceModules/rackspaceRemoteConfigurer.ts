@@ -47,8 +47,6 @@ export class RackspaceRemoteConfigurer implements RackspaceRemoteState {
           );
 
           this.containerRecords = formattedContainerRecords || [];
-          ConsoleDisplayer.displayRecords(this.containerRecords);
-
           resolve(this.containerRecords);
         }
       );
@@ -92,11 +90,16 @@ export class RackspaceRemoteConfigurer implements RackspaceRemoteState {
 
   async updateRackspaceRecordsHeaders(rackspacePath: string): Promise<boolean> {
     try {
+      ConsoleDisplayer.displaySpinnerText('Fetching remote container records');
       await this.getRemoteRecords(rackspacePath);
+      ConsoleDisplayer.successSpinnerText('Fetched remote container records');
+
+      ConsoleDisplayer.displaySpinnerText('Updating remote records headers');
       await this.updateRemoteHeaders();
+      ConsoleDisplayer.successSpinnerText('Updated remote records headers');
       return true;
     } catch (error) {
-      ConsoleDisplayer.displayError(error.message);
+      ConsoleDisplayer.failSpinnerText(error.message);
       return false;
     }
   }

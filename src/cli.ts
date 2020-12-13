@@ -23,7 +23,13 @@ ConsoleDisplayer.displaySpinnerText('Fetching local configuration');
 rackspaceLocalConfigurer
   .readRackspaceConfig()
   .then(async (rackspaceConfig: RackspaceConfig) => {
-    ConsoleDisplayer.successSpinnerText('Fetched local configuration');
+    ConsoleDisplayer.successSpinnerText(
+      `Fetched local configuration: ${JSON.stringify(
+        { ...rackspaceConfig },
+        null,
+        2
+      )}`
+    );
 
     const args = consolePrompter.getConsoleArguments();
 
