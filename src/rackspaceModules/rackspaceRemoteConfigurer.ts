@@ -31,14 +31,14 @@ export class RackspaceRemoteConfigurer implements RackspaceRemoteState {
       rackspacePath
     );
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       exec(
         `swiftly get ${containerName} --prefix ${containerFolderName}`,
         (error, stdout, stderr) => {
-          if (error) {
-            reject(JSON.stringify(error, null, 2));
-          } else if (stderr) {
-            reject(stderr);
+          if (error || stderr) {
+            throw new Error(
+              `Sorry, but "swiftly" hasn't been found on your PC. Please install it, using the provided link and try again: https://docs.rackspace.com/support/how-to/install-the-swiftly-client-for-cloud-files/`
+            );
           }
 
           const formattedContainerRecords = this.responsesFormatter.formatContainerRecords(
@@ -75,7 +75,8 @@ export class RackspaceRemoteConfigurer implements RackspaceRemoteState {
     );
   }
 
-  private static readonly validRackspaceResponseText = '';
+  private static readonly validRackspaceResponseText =
+    'the request is accepted for processing.';
   private validateRackspaceResponse(responseText: string): void {
     const formattedResponse = this.responsesFormatter
       .formatRackspaceResponse(responseText)

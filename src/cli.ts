@@ -46,6 +46,14 @@ rackspaceLocalConfigurer
       );
       isUpdated = true;
     }
+    if (args['cloud-url']) {
+      rackspaceLocalConfigurer.rackspaceCloudUrl = args['cloud-url'];
+      isUpdated = true;
+    }
+    if (args['token']) {
+      rackspaceLocalConfigurer.rackspaceToken = args['token'];
+      isUpdated = true;
+    }
 
     if (isUpdated) {
       ConsoleDisplayer.displaySpinnerText('Updating local configuration');
