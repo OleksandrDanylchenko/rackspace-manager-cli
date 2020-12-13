@@ -5,14 +5,14 @@
   "author": "Oleksandr Danylchenko",
   "license": "MIT",
   "scripts": {
-    "typecheck": "tsc",
-    "lint:base": "eslint --ext .js,.json,.ts",
-    "lint": "yarn lint:base src",
-    "start": "tsnd --respawn --files -r @babel/register --inspect -- src/cli.ts",
-    "create": "npm run build && node .",
+    "startDev": "tsnd --respawn --files -r @babel/register --inspect -- src/cli.ts -p wingboot/kulturhuset/201211-gyro-9",
+    "start": "npm run build && node .",
     "build": "tsc -p .",
     "local": "sudo npm i -g && updater",
-    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
+    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
+    "typecheck": "tsc",
+    "lint:base": "eslint --ext .js,.json,.ts",
+    "lint": "yarn lint:base src"
   },
   "bin": {
     "updater": "./lib/index.js"
@@ -36,6 +36,8 @@
     "clear": "^0.1.0",
     "commander": "^6.2.0",
     "figlet": "^1.5.0",
+    "node-fetch": "^2.6.1",
+    "ora": "^5.1.0",
     "path": "^0.12.7",
     "yargs": "^16.2.0"
   },
@@ -55,6 +57,8 @@
     "@types/dotenv": "^8.2.0",
     "@types/figlet": "^1.2.1",
     "@types/node": "^14.6.3",
+    "@types/node-fetch": "^2.5.7",
+    "@types/ora": "^3.2.0",
     "@types/yargs": "^15.0.11",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",

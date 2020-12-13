@@ -24,10 +24,10 @@ export class ConsolePrompter {
       });
     });
 
-  promptConsoleArguments = (): YargsOptions =>
+  getConsoleArguments = (): YargsOptions =>
     yargs.options({
       'cloud-url': { type: 'string', demandOption: false, alias: 'c' },
       token: { type: 'string', demandOption: false, alias: 't' },
-      'container-path': { type: 'string', demandOption: true, alias: 'p' }
+      'container-path': { type: 'string', demandOption: false, alias: 'p' }
     }).argv;
 }

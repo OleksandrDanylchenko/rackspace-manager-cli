@@ -1,6 +1,8 @@
 import { exec } from 'child_process';
 import { ResponsesFormatter } from '../utils/responsesFormatter';
 import { RackspaceLocalConfigurer } from './rackspaceLocalConfigurer';
+import fetch from 'node-fetch';
+import { ConsoleDisplayer } from '../cliModules/consoleDisplayer';
 
 interface RackspaceRemoteState {
   containerRecords: string[];
@@ -8,8 +10,8 @@ interface RackspaceRemoteState {
 
 export class RackspaceRemoteConfigurer implements RackspaceRemoteState {
   containerRecords = [];
-  responsesFormatter: ResponsesFormatter;
-  rackspaceLocalConfigurer: RackspaceLocalConfigurer;
+  private responsesFormatter: ResponsesFormatter;
+  private rackspaceLocalConfigurer: RackspaceLocalConfigurer;
 
   constructor(
     responsesFormatter: ResponsesFormatter,
@@ -45,6 +47,8 @@ export class RackspaceRemoteConfigurer implements RackspaceRemoteState {
           );
 
           this.containerRecords = formattedContainerRecords || [];
+          ConsoleDisplayer.displayRecords(this.containerRecords);
+
           resolve(this.containerRecords);
         }
       );
@@ -59,7 +63,7 @@ export class RackspaceRemoteConfigurer implements RackspaceRemoteState {
 
     await Promise.all(
       this.containerRecords.map(async (record) => {
-        await fetch(rackspaceCloudUrl + '/' + record, {
+        const response = await fetch(rackspaceCloudUrl + '/' + record, {
           method: 'POST',
           headers: {
             'X-Auth-Token': rackspaceToken,
@@ -67,12 +71,33 @@ export class RackspaceRemoteConfigurer implements RackspaceRemoteState {
             'X-Object-Meta-Access-Control-Allow-Origin': '*'
           }
         });
+
+        this.validateRackspaceResponse(await response.text());
       })
     );
   }
 
-  async updateRackspaceRecordsHeaders(rackspacePath: string): Promise<void> {
-    await this.getRemoteRecords(rackspacePath);
-    await this.updateRemoteHeaders();
+  private static readonly validRackspaceResponseText = '';
+  private validateRackspaceResponse(responseText: string): void {
+    const formattedResponse = this.responsesFormatter
+      .formatRackspaceResponse(responseText)
+      .toLocaleLowerCase();
+
+    if (
+      RackspaceRemoteConfigurer.validRackspaceResponseText !== formattedResponse
+    ) {
+      throw new Error(`Rackspace responded with error: "${formattedResponse}"`);
+    }
+  }
+
+  async updateRackspaceRecordsHeaders(rackspacePath: string): Promise<boolean> {
+    try {
+      await this.getRemoteRecords(rackspacePath);
+      await this.updateRemoteHeaders();
+      return true;
+    } catch (error) {
+      ConsoleDisplayer.displayError(error.message);
+      return false;
+    }
   }
 }

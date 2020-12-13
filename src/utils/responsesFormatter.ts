@@ -21,11 +21,8 @@ export class ResponsesFormatter {
   };
 
   formatRackspaceResponse = (response: string): string => {
-    const responseTextRegex = /<h1>(.*)<\/h1>/i;
-
+    const responseTextRegex = /<p>(.*)<\/p>/i;
     const responseText = responseTextRegex.exec(response);
-
-    if (!responseText) return 'accepted';
-    else return responseText[1].toLowerCase();
+    return !responseText ? '' : responseText[1].toLowerCase();
   };
 }
