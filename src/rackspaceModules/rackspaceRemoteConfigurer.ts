@@ -31,11 +31,9 @@ export class RackspaceRemoteConfigurer implements RackspaceRemoteState {
       rackspacePath
     );
 
-    return new Promise((resolve) => {
-      console.log(
-        `swiftly get ${containerName} --prefix ${containerFolderName}`
-      );
+    console.log(`swiftly get ${containerName} --prefix ${containerFolderName}`);
 
+    return new Promise((resolve) => {
       exec(
         `swiftly get ${containerName} --prefix ${containerFolderName}`,
         (error, stdout, stderr) => {
