@@ -38,6 +38,7 @@ export class RackspaceRemoteConfigurer implements RackspaceRemoteState {
         `swiftly get ${containerName} --prefix ${containerFolderName}`,
         (error, stdout, stderr) => {
           if (error || stderr) {
+            console.error(error || stderr);
             throw new Error(
               `Sorry, but "swiftly" isn't installed on your PC or install incorrectly. Please install/reinstall it, using the provided link and try again: https://docs.rackspace.com/support/how-to/install-the-swiftly-client-for-cloud-files/. NOT AVAILABLE ON WINDOWS!`
             );
