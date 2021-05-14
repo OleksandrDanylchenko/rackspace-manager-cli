@@ -5,7 +5,7 @@
   "author": "Oleksandr Danylchenko",
   "license": "MIT",
   "scripts": {
-    "startDev": "tsnd --respawn --files -r @babel/register --inspect -- src/cli.ts",
+    "startDev": "tsnd --respawn --files -r @babel/register --inspect -- src/cli.ts -p wingboot/barnasby/210506-1/",
     "start": "npm run build && node .",
     "build": "tsc -p .",
     "local": "npm i -g && updater",
