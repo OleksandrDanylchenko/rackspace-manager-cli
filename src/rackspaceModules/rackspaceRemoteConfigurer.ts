@@ -31,11 +31,13 @@ export class RackspaceRemoteConfigurer implements RackspaceRemoteState {
       rackspacePath
     );
 
-    console.log(`swiftly get ${containerName} --prefix ${containerFolderName}`);
-
     return new Promise((resolve) => {
+      const swiftlyPrefix = containerFolderName
+        ? `--prefix ${containerFolderName}`
+        : '';
+
       exec(
-        `swiftly get ${containerName} --prefix ${containerFolderName}`,
+        `swiftly get ${containerName} ${swiftlyPrefix}`,
         (error, stdout, stderr) => {
           if (error || stderr) {
             console.error(error || stderr);
